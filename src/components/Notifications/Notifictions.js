@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Moment from 'react-moment';
+import { connect } from 'react-redux';
+import fetchLetters from '../../store/Actions/fetchLetters'
 
 const NotificationTable = ({notifications}) => {
     return (
@@ -24,36 +26,11 @@ const NotificationTable = ({notifications}) => {
 
 class Notification extends Component {
     state = {
-        notifications: [
-            {
-                id: 56,
-                excerpt: "Тема письма, которая не поместится в эту строку, потому что слишком длинная",
-                date: "2012-06-02T00:00:00.000Z",
-                status: {
-                    code: "ok",
-                    text: "Отправлено"
-                }
-            },{
-                id: 53,
-                excerpt: "Тема письма, которая не поместится в эту строку, потому что слишком длинная",
-                date: "2012-06-02T00:00:00.000Z",
-                status: {
-                    code: "progress",
-                    text: "В очереди"
-                }
-            },{
-                id: 11,
-                excerpt: "Тема письма, которая не поместится в эту строку, потому что слишком длинная",
-                date: "2012-06-02T00:00:00.000Z",
-                status: {
-                    code: "error",
-                    text: "Ошибка"
-                }
-            }
-        ]
+        notifications: []
     }
     
     render () {
+        console.log(this.props.ids)
         return (
             <div className="notifications">
                 <h2 className="notifications__title">Отправленные сообщения</h2>
@@ -63,6 +40,24 @@ class Notification extends Component {
             </div>
         )
     }
+    componentDidMount () {
+        this.props.fetchLetters().then(letters=>{
+            this.setState({
+                notifications: [
+                    ...this.state.notifications,
+                    letters
+                ]
+            })
+        })
+    }
 }
 
-export default Notification;
+const mapSateToProps = (state) => ({
+    ids: [...state.lettersIDs]
+});
+
+const mapDispatchToProps = {
+    fetchLetters: () => fetchLetters()
+};
+
+export default connect(mapSateToProps, mapDispatchToProps)(Notification);

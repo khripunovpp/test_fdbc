@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import FormGroup from "../FormGroup/FormGroup";
 import FilePicker from "../FilePicker/FilePicker";
+import sendMail from "../../store/Actions/sendMail";
 
 class Letter extends Component {
     state = {
@@ -11,7 +13,7 @@ class Letter extends Component {
             toName: "Имя получателя",
             toEmail: "Адрес получател (email)",
             message: "текстовая версия письма",
-            attaches: [{"name" : "имя файла","content": "содержимое файла закодированное base64","encoding" : "base64"}]
+            attaches: []
           },
     }
     handlerInputOnChange = (e) => {
@@ -29,8 +31,9 @@ class Letter extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.props.sendMail(this.state.formData)
     }
-    
+
     render () {
         console.log(this.state)
         return (
@@ -77,4 +80,15 @@ class Letter extends Component {
     }
 }
 
-export default Letter;
+const mapSateToProps = {
+
+};
+
+const mapDispatchToProps = {
+    sendMail
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Letter);
