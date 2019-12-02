@@ -15,6 +15,7 @@
   background-color: #fff;
   border-radius: 5px;
   padding: 15px;
+  position: relative;
 }
 
 .main__bottom {
@@ -119,6 +120,30 @@
   width: 100%;
   justify-content: space-between;
 }
+.filepicker__dropZone {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(255,255,255,.9);
+  border: 1px dashed #CCCCCC;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+}
+.filepicker__dropCaption{
+  font-size: 30px;
+  margin: 0;
+}
+.filepicker__dropHelper {
+  font-size: 16px;
+  margin: 0;
+}
 .file {
   border: 1px solid #DDDDDD;
   margin-bottom: 10px;
@@ -208,8 +233,6 @@
   margin: 0 0 20px;
   font-weight: 400;
 }
-.notifications {
-}
 .notifications__head {
   display: flex;
   justify-content: space-between;
@@ -255,13 +278,13 @@
   padding-right: 0;
 }
 
-.notifications__item--send-ok .notifications__status {
+.notifications__item--ok .notifications__status {
   color: #03A100;
 }
-.notifications__item--in-progress .notifications__status {
+.notifications__item--progress .notifications__status {
   color: rgba(0,0,0,.4);
 }
-.notifications__item--has-error .notifications__status {
+.notifications__item--error .notifications__status {
   color: #FF6666;
 }
 
