@@ -9,7 +9,7 @@ import mailReducer from './store/Reducers/mailReducer';
 
 const store = createStore(
     combineReducers({
-        lettersIDs: mailReducer
+        letters: mailReducer
     }), applyMiddleware(thunk)
 )
 

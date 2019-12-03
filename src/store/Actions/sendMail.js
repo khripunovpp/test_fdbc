@@ -1,5 +1,7 @@
-import React from 'react';
-import { SEND_MAIL } from './types'
+import { 
+    SEND_MAIL,
+    SEND_ERROR
+} from './types'
 
 export default function(letter) {
     return async (dispatch) => {
@@ -22,13 +24,31 @@ export default function(letter) {
             resolve({
                 "track.id": "8888"
             })
-        })
+        });
+        const sentLetter = {
+            ...letter,
+            id: "",
+            status: {
+                code: "progress",
+                text: "В очереди"
+            }
+        };
         req.then(resp=>{
+            const cachedStorage = JSON.parse(localStorage.getItem('letterStorage')) || [];
+            const id = "8888"
             dispatch({
                 type: SEND_MAIL,
-                payload: resp['track.id']
+                payload: {...sentLetter, id}
             })
-        })
+            const newStorage = [
+                ...cachedStorage,
+                {
+                    ...sentLetter,
+                    id
+                }
+            ]
+            localStorage.setItem('letterStorage', JSON.stringify(newStorage));
+        }, err => dispatch({ type: SEND_ERROR, payload: err})).catch(err => dispatch({ type: SEND_ERROR, payload: err}))
         
     }
 }

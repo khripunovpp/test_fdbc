@@ -3,16 +3,19 @@ import {
     SEND_MAIL 
 } from '../Actions/types'
 
-export default function(state = ['55', '55'], action) {
+export default function(state = [], action) {
     switch(action.type) {
+        case FETCH_LETTERS:
+            return [
+                ...state,
+                ...action.payload
+            ];
         case SEND_MAIL:
             return [
                 ...state,
                 action.payload
             ];
-            break;
         default:
             return state;
-            break;
     }
 }

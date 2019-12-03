@@ -35,7 +35,7 @@ class Letter extends Component {
     }
 
     render () {
-        console.log(this.state)
+        console.log(this.props.state)
         return (
             <div className="mail" onDragOver={this.handlerFilePicker}>
               <h1 className="mail__title">Отправлялка сообщений</h1>
@@ -80,15 +80,15 @@ class Letter extends Component {
     }
 }
 
-const mapSateToProps = {
-
-};
+const mapStateToProps = (state) => ({
+    state
+});
 
 const mapDispatchToProps = {
     sendMail
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Letter);

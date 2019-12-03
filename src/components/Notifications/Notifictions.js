@@ -3,7 +3,8 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import fetchLetters from '../../store/Actions/fetchLetters'
 
-const NotificationTable = ({notifications}) => {
+const NotificationTable = ({letters}) => {
+    console.log(letters);
     return (
         <div className="notifications__table">
             <div className="notifications__head">
@@ -12,52 +13,42 @@ const NotificationTable = ({notifications}) => {
                 <span className="notifications__status">Статус</span>
             </div>
             <ul className="notifications__list">
-                {notifications.map(notification=>(
-                    <li className={`notifications__item notifications__item--${notification.status.code}`} key={notification.id}>
-                        <span className="notifications__date"><Moment format="DD MMMM">{notification.date}</Moment></span>
-                        <span className="notifications__excerpt">{notification.excerpt}</span>
-                        <span className="notifications__status">{notification.status.text}</span>
+                {letters.map((letter, i)=>{
+                return (
+                    <li className={`notifications__item notifications__item--${letter.status.code}`} key={i}>
+                        <span className="notifications__date"><Moment format="DD MMMM">{letter.date}</Moment></span>
+                        <span className="notifications__excerpt">{letter.subject}</span>
+                        <span className="notifications__status">{letter.status.text}</span>
                     </li>
-                ))}
+                )})}
             </ul>
         </div>
     )
 }
 
-class Notification extends Component {
-    state = {
-        notifications: []
-    }
-    
+class Notification extends Component {    
     render () {
-        console.log(this.props.ids)
+        console.log(this.props.letters)
         return (
             <div className="notifications">
                 <h2 className="notifications__title">Отправленные сообщения</h2>
-                {this.state.notifications.length > 0 
-                    ? <NotificationTable notifications={this.state.notifications} />
+                {this.props.letters.length > 0 
+                    ? <NotificationTable letters={this.props.letters} />
                     : <p className="notifications__empty">Сообщения ещё не отправлялись</p> }
             </div>
         )
     }
-    componentDidMount () {
-        this.props.fetchLetters().then(letters=>{
-            this.setState({
-                notifications: [
-                    ...this.state.notifications,
-                    letters
-                ]
-            })
-        })
+    componentDidMount() {
+        this.props.fetchLetters()
     }
 }
 
 const mapSateToProps = (state) => ({
-    ids: [...state.lettersIDs]
+    letters: [...state.letters]
 });
 
 const mapDispatchToProps = {
-    fetchLetters: () => fetchLetters()
+    fetchLetters
 };
 
 export default connect(mapSateToProps, mapDispatchToProps)(Notification);
